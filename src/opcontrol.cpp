@@ -14,25 +14,21 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor m_drive_front_left(M_DRIVE_FRONT_LEFT);
-	pros::Motor m_drive_front_right(M_DRIVE_FRONT_RIGHT, true);
-	pros::Motor m_drive_back_left(M_DRIVE_BACK_LEFT);
-	pros::Motor m_drive_back_right(M_DRIVE_BACK_RIGHT, true);
+	Controller master = Controller();
+	XDriveModel drive = ChassisModelFactory::create(
+		M_DRIVE_FRONT_LEFT, M_DRIVE_FRONT_RIGHT, M_DRIVE_BACK_RIGHT, M_DRIVE_BACK_LEFT, 600
+	);
 	
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
 
-		int forward = master.get_analog(ANALOG_LEFT_Y);
-		int strafe = master.get_analog(ANALOG_LEFT_X);
-		int turn = master.get_analog(ANALOG_RIGHT_X);
+		float forward = master.getAnalog(ControllerAnalog::leftY);
+		float strafe = master.getAnalog(ControllerAnalog::leftX);
+		float turn = master.getAnalog(ControllerAnalog::rightX);
 
-		m_drive_back_left 	= forward - strafe + turn;
-		m_drive_back_right 	= forward + strafe - turn;
-		m_drive_front_left 	= forward + strafe + turn;
-		m_drive_front_right = forward - strafe - turn;
+		drive.xArcade(strafe, forward, turn);
 		pros::delay(20);
 	}
 }

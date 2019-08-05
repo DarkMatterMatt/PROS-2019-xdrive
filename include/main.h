@@ -39,8 +39,10 @@
 /**
  * You should add more #includes here
  */
-//#include "okapi/api.hpp"
+#include "okapi/api.hpp"
 //#include "pros/api_legacy.h"
+
+#include "motors_sensors.h"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
@@ -53,6 +55,8 @@
 // using namespace pros;
 // using namespace pros::literals;
 // using namespace okapi;
+using namespace okapi;
+using namespace okapi::literals;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
@@ -77,7 +81,5 @@ void opcontrol(void);
  */
 //#include <iostream>
 #endif
-
-#include "motors_sensors.h"
 
 #endif  // _PROS_MAIN_H_
