@@ -15,17 +15,24 @@
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(1);
-	pros::Motor right_mtr(2);
+	pros::Motor m_drive_front_left(M_DRIVE_FRONT_LEFT);
+	pros::Motor m_drive_front_right(M_DRIVE_FRONT_RIGHT, true);
+	pros::Motor m_drive_back_left(M_DRIVE_BACK_LEFT);
+	pros::Motor m_drive_back_right(M_DRIVE_BACK_RIGHT, true);
+	
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		int left = master.get_analog(ANALOG_LEFT_Y);
-		int right = master.get_analog(ANALOG_RIGHT_Y);
 
-		left_mtr = left;
-		right_mtr = right;
+		int forward = master.get_analog(ANALOG_LEFT_Y);
+		int strafe = master.get_analog(ANALOG_LEFT_X);
+		int turn = master.get_analog(ANALOG_RIGHT_X);
+
+		m_drive_back_left 	= forward - strafe + turn;
+		m_drive_back_right 	= forward + strafe - turn;
+		m_drive_front_left 	= forward + strafe + turn;
+		m_drive_front_right = forward - strafe - turn;
 		pros::delay(20);
 	}
 }

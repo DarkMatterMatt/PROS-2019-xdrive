@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "PROS",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Program Files/PROS/toolchain/**"
+            ],
+            "compilerPath": "C:/Program Files/PROS/toolchain/usr/bin/arm-none-eabi-g++.exe",
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ]
+        }
+    ],
+    "version": 4
+}
